@@ -2,7 +2,7 @@
 Solução de Business Intelligence e pipeline de dados para análise de mercado, concorrência e expansão de acessos móveis M2M no Brasil, utilizando dados da Anatel.
 
 
-# 📡 Análise de Mercado IoT e Conectividade Móvel (M2M) - Case Virtueyes
+# 📡 Análise de Mercado IoT e Conectividade Móvel (M2M)
 
 ## 📌 Visão Geral
 Este repositório contém a solução desenvolvida para o Case Técnico de Business Intelligence. O objetivo principal é apoiar a estratégia comercial e de produtos da *Connect*, construindo uma visão analítica detalhada do mercado brasileiro de acessos móveis com base em dados públicos da Anatel.
