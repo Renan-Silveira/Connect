@@ -40,3 +40,14 @@ A stack foi escolhida visando reprodutibilidade, governança e clareza na manipu
 ├── docs/                  # Apresentação final e materiais complementares
 ├── requirements.txt       # Pacotes python usados para a elaboração do projeto
 └── README.md
+```
+
+## Estrutura do arquivo .env
+```textDIR_DASHBOARD = "dashboard"
+DIR_DATARAW=data/raw
+DIR_DATAPROCESSED=data/processed
+DIR_NOTEBOOKS=notebooks
+DIR_SRC=src
+DIR_DASHBOARD=dashboard
+DIR_DOCS=docs
+
