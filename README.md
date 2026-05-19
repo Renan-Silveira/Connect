@@ -51,3 +51,33 @@ DIR_SRC=src
 DIR_DASHBOARD=dashboard
 DIR_DOCS=docs
 
+
+🛠️ Como instalar dependências
+
+Para garantir que o projeto funcione corretamente, é recomendado que você utilize um ambiente virtual. Siga os passos abaixo no seu terminal, dentro da pasta do projeto:
+1. Criar e ativar o ambiente virtual
+
+No Windows:
+Bash
+
+python -m venv venv
+venv\Scripts\activate
+
+No Linux ou macOS:
+Bash
+
+python3 -m venv venv
+source venv/bin/activate
+
+2. Instalar as bibliotecas
+
+Com o ambiente ativado, instale todas as dependências listadas no arquivo requirements.txt:
+Bash
+
+pip install -r requirements.txt
+
+💡 Dicas Úteis
+
+    Verificar instalações: Após a conclusão, você pode conferir os pacotes instalados com o comando pip list.
+
+    Atualizar dependências: Caso instale uma nova biblioteca durante o desenvolvimento, lembre-se de atualizar o arquivo com pip freeze > requirements.txt.
