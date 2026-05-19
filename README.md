@@ -33,10 +33,10 @@ A stack foi escolhida visando reprodutibilidade, governança e clareza na manipu
 ```text
 ├── data/
 │   ├── raw/               # Arquivos brutos baixados da Anatel
-│   └── processed/         # Base analítica tratada e padronizada (ex: .parquet)
+│   └── processed/         # Base analítica tratada e padronizada
 ├── notebooks/             # Notebooks de exploração e validação de dados
 ├── src/                   # Scripts Python para extração e pipeline ETL
-├── dashboard/             # Arquivo do painel (.pbix) ou código do Streamlit
+├── dashboard/             # código do Streamlit
 ├── docs/                  # Apresentação final e materiais complementares
 ├── requirements.txt       # Pacotes python usados para a elaboração do projeto
 └── README.md
