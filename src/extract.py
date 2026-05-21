@@ -3,10 +3,10 @@ def extract():
     import os # Biblioteca para interagir com o sistema operacional
     from dotenv import load_dotenv # Biblioteca para carregar variáveis de ambiente a partir de um arquivo .env
     import zipfile # Biblioteca para manipular arquivos ZIP
-    from tqdm import tqdm
-    import requests
-    import logging
-    from datetime import datetime
+    from tqdm import tqdm # Biblioteca para criar barras de progresso no terminal
+    import requests # Biblioteca para fazer requisições HTTP
+    import logging # Biblioteca para registrar logs de erros
+    from datetime import datetime # Biblioteca para trabalhar com datas e horas
 
     load_dotenv() # Carrega as variáveis de ambiente do arquivo .env
 
