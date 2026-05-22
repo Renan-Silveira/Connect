@@ -1,6 +1,6 @@
 def main():
     from extract import extract
-    from rename_pkl import rename_parquet
+    from rename_parquet import rename_parquet
     from rename_csv import rename_csv
     import logging
 
