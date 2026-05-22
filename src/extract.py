@@ -1,3 +1,6 @@
+from sqlalchemy import true
+
+
 def extract():
     import requests # Biblioteca para fazer requisições HTTP
     import os # Biblioteca para interagir com o sistema operacional
@@ -47,7 +50,7 @@ def extract():
 
         with zipfile.ZipFile(f"{DIR_DATA}/{NOME_FILE}", "r") as zip_ref: # Abre o arquivo ZIP para leitura
             zip_ref.extractall(DIR_DATARAW) # Extrai todo o conteúdo do arquivo ZIP para o diretório especificado
-
+        return True # Retorna True para indicar que a extração foi concluída com sucesso
     except requests.exceptions.RequestException as e:
         # Registra o erro no arquivo .txt com o timestamp atual
         mensagem_erro = f"Falha ao baixar {URL}: {str(e)}"
@@ -55,6 +58,6 @@ def extract():
         print(f"Erro registrado. Verifique o arquivo erros_download.txt") # Imprime uma mensagem informando que o erro foi registrado
     except Exception as e: # Captura qualquer outra exceção que possa ocorrer durante a extração do arquivo
         print(f"\nErro ao extrair o arquivo: {e}") # Imprime uma mensagem de erro caso ocorra um problema durante a extração do arquivo
-
+    return False # Retorna False para indicar que a extração falhou
 if __name__ == "__main__":
     extract()
