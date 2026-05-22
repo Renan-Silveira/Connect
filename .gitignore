@@ -185,3 +185,5 @@ cython_debug/
 download.zip
 *.csv
 *.pdf
+*.parquet
+*.pkl
