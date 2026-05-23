@@ -57,9 +57,9 @@ DIR_DOCS=docs
 URL= "https://..."
 NOME_FILE= "download.zip"
 ```
-```
- Como instalar dependências
 
+## Como instalar dependências
+```
 Para garantir que o projeto funcione corretamente, é recomendado que você utilize um ambiente virtual. Siga os passos abaixo no seu terminal, dentro da pasta do projeto:
 1. Criar e ativar o ambiente virtual
 
