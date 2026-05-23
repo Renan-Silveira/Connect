@@ -1,4 +1,4 @@
-# connect
+# CONNECT
 Solução de Business Intelligence e pipeline de dados para análise de mercado, concorrência e expansão de acessos móveis M2M no Brasil, utilizando dados da Anatel.
 
 
@@ -44,7 +44,7 @@ A stack foi escolhida visando reprodutibilidade, governança e clareza na manipu
 ```
 
 ## Estrutura do arquivo .env
-```textDIR_DASHBOARD = "dashboard"
+```text
 DIR_DATARAW=data/raw
 DIR_DATAPARQUET=data/parquet
 DIR_DATAPROCESSED=data/processed
@@ -56,10 +56,10 @@ DIR_DOCS=docs
 
 URL= "https://..."
 NOME_FILE= "download.zip"
+```
 
-
- Como instalar dependências
-
+## Como instalar dependências
+```
 Para garantir que o projeto funcione corretamente, é recomendado que você utilize um ambiente virtual. Siga os passos abaixo no seu terminal, dentro da pasta do projeto:
 1. Criar e ativar o ambiente virtual
 
