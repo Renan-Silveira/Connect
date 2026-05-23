@@ -44,7 +44,7 @@ A stack foi escolhida visando reprodutibilidade, governança e clareza na manipu
 ```
 
 ## Estrutura do arquivo .env
-```textDIR_DASHBOARD = "dashboard"
+```text
 DIR_DATARAW=data/raw
 DIR_DATAPARQUET=data/parquet
 DIR_DATAPROCESSED=data/processed
@@ -56,8 +56,8 @@ DIR_DOCS=docs
 
 URL= "https://..."
 NOME_FILE= "download.zip"
-
-
+```
+```
  Como instalar dependências
 
 Para garantir que o projeto funcione corretamente, é recomendado que você utilize um ambiente virtual. Siga os passos abaixo no seu terminal, dentro da pasta do projeto:
