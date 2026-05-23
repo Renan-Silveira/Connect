@@ -2,6 +2,7 @@ def main():
     from extract import extract
     from rename_parquet import rename_parquet
     from rename_csv import rename_csv
+    from compile import compile_parquet
     import logging
 
     logging.basicConfig(
@@ -15,7 +16,8 @@ def main():
     steps = [
         extract,
         rename_csv,
-        rename_parquet
+        rename_parquet,
+        compile_parquet
     ]
 
     for step in steps:
