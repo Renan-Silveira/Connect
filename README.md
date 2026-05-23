@@ -65,25 +65,20 @@ Para garantir que o projeto funcione corretamente, é recomendado que você util
 
 No Windows:
 Bash
-
 python -m venv venv
 venv\Scripts\activate
 
 No Linux ou macOS:
 Bash
-
 python3 -m venv venv
 source venv/bin/activate
 
-2. Instalar as bibliotecas
-
+2. Instalar as bibliotecas:
 Com o ambiente ativado, instale todas as dependências listadas no arquivo requirements.txt:
 Bash
 
 pip install -r requirements.txt
 
  Dicas Úteis
-
-    Verificar instalações: Após a conclusão, você pode conferir os pacotes instalados com o comando pip list.
-
-    Atualizar dependências: Caso instale uma nova biblioteca durante o desenvolvimento, lembre-se de atualizar o arquivo com pip freeze > requirements.txt.
+    - Verificar instalações: Após a conclusão, você pode conferir os pacotes instalados com o comando pip list.
+    - Atualizar dependências: Caso instale uma nova biblioteca durante o desenvolvimento, lembre-se de atualizar o arquivo com pip freeze > requirements.txt.
