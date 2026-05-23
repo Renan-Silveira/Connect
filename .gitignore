@@ -187,3 +187,4 @@ download.zip
 *.pdf
 *.parquet
 *.pkl
+!silver_*.parquet
