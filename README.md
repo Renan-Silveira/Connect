@@ -25,7 +25,7 @@ Os dados foram extraídos dos painéis públicos da **Agência Nacional de Telec
 ## 🛠️ Arquitetura e Tecnologias Utilizadas
 A stack foi escolhida visando reprodutibilidade, governança e clareza na manipulação dos dados:
 * **Extração e Tratamento (ETL):** Python / Pandas
-* **Armazenamento / Base Analítica:** Arquivos Pickle
+* **Armazenamento / Base Analítica:** Arquivos Parquet
 * **Visualização de Dados:** Streamlit
 * **Controle de Versão:** Git & GitHub
 
@@ -33,6 +33,7 @@ A stack foi escolhida visando reprodutibilidade, governança e clareza na manipu
 ```text
 ├── data/
 │   ├── raw/               # Arquivos brutos baixados da Anatel
+│   ├── parquet/           # Arquivos parquet depois de transformados
 │   └── processed/         # Base analítica tratada e padronizada
 ├── notebooks/             # Notebooks de exploração e validação de dados
 ├── src/                   # Scripts Python para extração e pipeline ETL
@@ -45,11 +46,16 @@ A stack foi escolhida visando reprodutibilidade, governança e clareza na manipu
 ## Estrutura do arquivo .env
 ```textDIR_DASHBOARD = "dashboard"
 DIR_DATARAW=data/raw
+DIR_DATAPARQUET=data/parquet
 DIR_DATAPROCESSED=data/processed
+DIR_DATA = data
 DIR_NOTEBOOKS=notebooks
 DIR_SRC=src
 DIR_DASHBOARD=dashboard
 DIR_DOCS=docs
+
+URL= "https://..."
+NOME_FILE= "download.zip"
 
 
 🛠️ Como instalar dependências
