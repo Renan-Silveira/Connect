@@ -21,15 +21,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-def teste():
-    print("Teste de Navegação") # Função de teste para verificar a navegação entre páginas, imprime uma mensagem no console quando chamada
-
-def visao_geral_page():
-    st.title("📈 Visão Geral do Mercado")
-    st.subheader("Análise Macroeconômica e Evolução Histórica de Acessos")
-    st.markdown("---")
+def aplicar_filtros(df):
     st.sidebar.header("Filtros")
-
     #Filtro: Empresa
     empresa = st.sidebar.multiselect(
         "Empresa",
@@ -71,6 +64,18 @@ def visao_geral_page():
         "UF",
         options=df["UF"].unique(),
         default=df["UF"].unique())
+
+def teste():
+    print("Teste de Navegação") # Função de teste para verificar a navegação entre páginas, imprime uma mensagem no console quando chamada
+    aplicar_filtros(df) # Chama a função aplicar_filtros para exibir os filtros na barra lateral, permitindo que o usuário interaja com os dados e refine a visualização de acordo com suas preferências
+
+def visao_geral_page():
+
+    st.title("📈 Visão Geral do Mercado")
+    st.subheader("Análise Macroeconômica e Evolução Histórica de Acessos")
+    st.markdown("---")
+    st.sidebar.header("Filtros")
+    aplicar_filtros(df) # Chama a função aplicar_filtros para exibir os filtros na barra lateral, permitindo que o usuário interaja com os dados e refine a visualização de acordo com suas preferências
 
 paginas = [
     st.Page(visao_geral_page, title="Visão Geral do Mercado", icon="📈"),
