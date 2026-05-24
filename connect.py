@@ -143,7 +143,7 @@ def visao_geral_page(df):
     with col2:
         st.plotly_chart(fig3, use_container_width=True)
 paginas = [
-    st.Page(visao_geral_page, title="Visão Geral do Mercado", icon="📈"),
+    st.Page(visao_geral_page(df), title="Visão Geral do Mercado", icon="📈"),
     st.Page(teste, title='Teste', icon="🔍")
 ]
 
