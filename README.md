@@ -53,6 +53,7 @@ DIR_NOTEBOOKS=notebooks
 DIR_SRC=src
 DIR_DASHBOARD=dashboard
 DIR_DOCS=docs
+DIR_GOLD = data/gold
 
 URL= "https://..."
 NOME_FILE= "download.zip"
