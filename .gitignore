@@ -188,3 +188,4 @@ download.zip
 *.parquet
 *.pkl
 !gold_*.parquet
+!preprocessado.parquet
