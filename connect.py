@@ -13,13 +13,43 @@ df = pd.read_parquet(os.path.join(DIR_DATAPROCESSED, "preprocessado.parquet")) #
 df = pd.DataFrame(df) # Converte o DataFrame para garantir que seja do tipo Pandas, caso a leitura do Parquet retorne um tipo diferente (como um DataFrame do Polars ou PyArrow) e para facilitar a manipulação dos dados usando as funcionalidades do Pandas.  
 
 
-
 st.set_page_config(
     page_title="Intel de Mercado - Connect/Virtueyes",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+def gerar_graficos_analise(df):
+    # 1. Preparar os dados
+    # Agrupa por período e empresa
+    df_grouped = df.groupby(['periodo', 'Empresa'])['acessos'].sum().unstack(fill_value=0)
+    
+    # --- GRÁFICO 1: Crescimento do Mercado (Série Temporal) ---
+    mercado_total = df_grouped.sum(axis=1).reset_index(name='Total Acessos')
+    fig1 = px.line(mercado_total, x='periodo', y='Total Acessos', 
+                   title="Evolução do Mercado de Acessos Móveis",
+                   markers=True)
+    
+    # --- GRÁFICO 2: Maior Crescimento Absoluto (Top 10) ---
+    crescimento_abs = (df_grouped.iloc[-1] - df_grouped.iloc[-2]).nlargest(10).reset_index()
+    crescimento_abs.columns = ['Empresa', 'Crescimento Absoluto']
+    fig2 = px.bar(crescimento_abs, x='Crescimento Absoluto', y='Empresa', orientation='h',
+                  title="Top 10: Maior Crescimento Absoluto (Último Mês)",
+                  color='Crescimento Absoluto')
+    
+    # --- GRÁFICO 3: Maior Crescimento Percentual (Top 10 com filtro) ---
+    crescimento_pct = (df_grouped.pct_change().iloc[-1] * 100).fillna(0)
+    # Filtro: considerar apenas empresas com volume relevante para evitar distorções
+    filtro = df_grouped.iloc[-1] > 1000 
+    top_pct = crescimento_pct[filtro].nlargest(10).reset_index()
+    top_pct.columns = ['Empresa', 'Crescimento %']
+    
+    fig3 = px.bar(top_pct, x='Crescimento %', y='Empresa', orientation='h',
+                  title="Top 10: Maior Crescimento Percentual (Volume > 1000)",
+                  color='Crescimento %')
+
+    return fig1, fig2, fig3
 
 def aplicar_filtros(df):
     st.sidebar.header("Filtros")
@@ -76,42 +106,22 @@ def visao_geral_page():
     st.markdown("---")
     st.sidebar.header("Filtros")
     aplicar_filtros(df) # Chama a função aplicar_filtros para exibir os filtros na barra lateral, permitindo que o usuário interaja com os dados e refine a visualização de acordo com suas preferências
+    fig1, fig2, fig3 = gerar_graficos_analise(df)
 
+    st.title("Dashboard de Mercado - Acessos Móveis")
+
+    st.plotly_chart(fig1, use_container_width=True)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.plotly_chart(fig2, use_container_width=True)
+    with col2:
+        st.plotly_chart(fig3, use_container_width=True)
 paginas = [
     st.Page(visao_geral_page, title="Visão Geral do Mercado", icon="📈"),
     st.Page(teste, title='Teste', icon="🔍")
 ]
 
-def gerar_graficos_analise(df):
-    # 1. Preparar os dados
-    # Agrupa por período e empresa
-    df_grouped = df.groupby(['periodo', 'Empresa'])['acessos'].sum().unstack(fill_value=0)
-    
-    # --- GRÁFICO 1: Crescimento do Mercado (Série Temporal) ---
-    mercado_total = df_grouped.sum(axis=1).reset_index(name='Total Acessos')
-    fig1 = px.line(mercado_total, x='periodo', y='Total Acessos', 
-                   title="Evolução do Mercado de Acessos Móveis",
-                   markers=True)
-    
-    # --- GRÁFICO 2: Maior Crescimento Absoluto (Top 10) ---
-    crescimento_abs = (df_grouped.iloc[-1] - df_grouped.iloc[-2]).nlargest(10).reset_index()
-    crescimento_abs.columns = ['Empresa', 'Crescimento Absoluto']
-    fig2 = px.bar(crescimento_abs, x='Crescimento Absoluto', y='Empresa', orientation='h',
-                  title="Top 10: Maior Crescimento Absoluto (Último Mês)",
-                  color='Crescimento Absoluto')
-    
-    # --- GRÁFICO 3: Maior Crescimento Percentual (Top 10 com filtro) ---
-    crescimento_pct = (df_grouped.pct_change().iloc[-1] * 100).fillna(0)
-    # Filtro: considerar apenas empresas com volume relevante para evitar distorções
-    filtro = df_grouped.iloc[-1] > 1000 
-    top_pct = crescimento_pct[filtro].nlargest(10).reset_index()
-    top_pct.columns = ['Empresa', 'Crescimento %']
-    
-    fig3 = px.bar(top_pct, x='Crescimento %', y='Empresa', orientation='h',
-                  title="Top 10: Maior Crescimento Percentual (Volume > 1000)",
-                  color='Crescimento %')
-
-    return fig1, fig2, fig3
 
 navegacao = st.navigation(paginas)
 navegacao.run()
