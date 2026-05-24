@@ -209,11 +209,10 @@ def visao_geral_page():
     st.title("📈 Visão Geral do Mercado")
     st.subheader("Análise Macroeconômica e Evolução Histórica de Acessos")
     st.markdown("---")
-    st.sidebar.header("Filtros")
 
     fig1, fig2, fig3 = crescimento(df)
 
-    st.title("Dashboard de Mercado - Acessos Móveis")
+    st.title("Mercado - Acessos Móveis")
 
     st.plotly_chart(fig1, use_container_width=True)
 
