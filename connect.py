@@ -21,9 +21,7 @@ st.set_page_config(
 )
 
 def crescimento(df):
-    df = aplicar_filtros(df)
 
-    st.dataframe(df)
     dfcrescimento = df.groupby(['periodo', 'Empresa'])['acessos'].sum().unstack(fill_value=0)
     
 
@@ -130,6 +128,9 @@ def visao_geral_page():
     st.subheader("Análise Macroeconômica e Evolução Histórica de Acessos")
     st.markdown("---")
     st.sidebar.header("Filtros")
+    df = aplicar_filtros(df)
+
+    st.dataframe(df)
     fig1, fig2, fig3 = crescimento(df)
 
     st.title("Dashboard de Mercado - Acessos Móveis")
