@@ -20,28 +20,39 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-def gerar_graficos_analise(df):
-    # 1. Preparar os dados
-    # Agrupa por período e empresa
-    df_grouped = df.groupby(['periodo', 'Empresa'])['acessos'].sum().unstack(fill_value=0)
+def crescimento(df):
+    dfcrescimento = df.groupby(['periodo', 'Empresa'])['acessos'].sum().unstack(fill_value=0)
     
-    # --- GRÁFICO 1: Crescimento do Mercado (Série Temporal) ---
-    mercado_total = df_grouped.sum(axis=1).reset_index(name='Total Acessos')
+
+    mercado_total = dfcrescimento.sum(axis=1).reset_index(name='Total Acessos')
     fig1 = px.line(mercado_total, x='periodo', y='Total Acessos', 
                    title="Evolução do Mercado de Acessos Móveis",
                    markers=True)
     
-    # --- GRÁFICO 2: Maior Crescimento Absoluto (Top 10) ---
-    crescimento_abs = (df_grouped.iloc[-1] - df_grouped.iloc[-2]).nlargest(10).reset_index()
-    crescimento_abs.columns = ['Empresa', 'Crescimento Absoluto']
-    fig2 = px.bar(crescimento_abs, x='Crescimento Absoluto', y='Empresa', orientation='h',
-                  title="Top 10: Maior Crescimento Absoluto (Último Mês)",
-                  color='Crescimento Absoluto')
+    mes_atual = dfcrescimento.index[-1]
+    mes_anterior = dfcrescimento.index[-2]
     
-    # --- GRÁFICO 3: Maior Crescimento Percentual (Top 10 com filtro) ---
-    crescimento_pct = (df_grouped.pct_change().iloc[-1] * 100).fillna(0)
-    # Filtro: considerar apenas empresas com volume relevante para evitar distorções
-    filtro = df_grouped.iloc[-1] > 1000 
+    # Criamos um DataFrame 'long' para o plotly entender as barras agrupadas
+    df_comp = dfcrescimento.loc[[mes_anterior, mes_anterior]].copy() # Estrutura base
+    df_comp = dfcrescimento.iloc[-2:].T.reset_index()
+    df_comp = df_comp.melt(id_vars='Empresa', var_name='Periodo', value_name='Acessos')
+    
+    # Filtramos para mostrar apenas as 10 empresas com maior variação absoluta
+    top_10_empresas = (dfcrescimento.iloc[-1] - dfcrescimento.iloc[-2]).nlargest(10).index
+    df_comp = df_comp[df_comp['Empresa'].isin(top_10_empresas)]
+    
+    fig2 = px.bar(df_comp, 
+                  x='Acessos', 
+                  y='Empresa', 
+                  color='Periodo', 
+                  barmode='group', # Isso coloca as barras lado a lado
+                  orientation='h',
+                  title=f"Comparativo de Acessos: {mes_anterior} vs {mes_atual}",
+                  text_auto='.2s') # Mostra o valor formatado nas barras
+    
+    crescimento_pct = (dfcrescimento.pct_change().iloc[-1] * 100).fillna(0)
+
+    filtro = dfcrescimento.iloc[-1] > 1000 
     top_pct = crescimento_pct[filtro].nlargest(10).reset_index()
     top_pct.columns = ['Empresa', 'Crescimento %']
     
@@ -106,7 +117,7 @@ def visao_geral_page():
     st.markdown("---")
     st.sidebar.header("Filtros")
     aplicar_filtros(df) # Chama a função aplicar_filtros para exibir os filtros na barra lateral, permitindo que o usuário interaja com os dados e refine a visualização de acordo com suas preferências
-    fig1, fig2, fig3 = gerar_graficos_analise(df)
+    fig1, fig2, fig3 = crescimento(df)
 
     st.title("Dashboard de Mercado - Acessos Móveis")
 
