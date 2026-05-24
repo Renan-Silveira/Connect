@@ -21,6 +21,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+def teste():
+    print("Teste de Navegação") # Função de teste para verificar a navegação entre páginas, imprime uma mensagem no console quando chamada
 
 def visao_geral_page():
     st.title("📈 Visão Geral do Mercado")
@@ -72,6 +74,7 @@ def visao_geral_page():
 
 paginas = [
     st.Page(visao_geral_page, title="Visão Geral do Mercado", icon="📈")
+    st.Page(teste, title='Teste', icon="🔍")
 ]
 
 def gerar_graficos_analise(df):
