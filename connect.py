@@ -9,8 +9,8 @@ load_dotenv() # Carrega as variáveis de ambiente do arquivo .env
 
 
 DIR_DATAPROCESSED = os.getenv("DIR_DATAPROCESSED") # Diretório onde o arquivo pré-processado será salvo, definido como uma string para facilitar a referência em todo o código
-df = pd.read_parquet(os.path.join(DIR_DATAPROCESSED, "preprocessado.parquet")) # Lê o arquivo Parquet pré-processado usando o Pandas e armazena em um DataFrame para análise e visualização
-df = pd.DataFrame(df) # Converte o DataFrame para garantir que seja do tipo Pandas, caso a leitura do Parquet retorne um tipo diferente (como um DataFrame do Polars ou PyArrow) e para facilitar a manipulação dos dados usando as funcionalidades do Pandas.  
+df = pd.read_parquet(os.path.join(DIR_DATAPROCESSED, "preprocessado.parquet")) # Lê o arquivo Parquet pré-processado usando o Pandas e armazena em um DataFrame
+df = pd.DataFrame(df) # Converte o DataFrame para garantir que seja do tipo Pandas
 
 
 st.set_page_config(
@@ -33,23 +33,26 @@ def crescimento(df):
     mes_atual = dfcrescimento.index[-1]
     mes_anterior = dfcrescimento.index[-2]
     
-    # Criamos um DataFrame 'long' para o plotly entender as barras agrupadas
-    df_comp = dfcrescimento.loc[[mes_anterior, mes_anterior]].copy() # Estrutura base
+    
+    df_comp = dfcrescimento.loc[[mes_anterior, mes_anterior]].copy()
     df_comp = dfcrescimento.iloc[-2:].T.reset_index()
     df_comp = df_comp.melt(id_vars='Empresa', var_name='Periodo', value_name='Acessos')
     
-    # Filtramos para mostrar apenas as 10 empresas com maior variação absoluta
+    
     top_10_empresas = (dfcrescimento.iloc[-1] - dfcrescimento.iloc[-2]).nlargest(10).index
     df_comp = df_comp[df_comp['Empresa'].isin(top_10_empresas)]
+    ordem_empresas = df_comp[df_comp['Periodo'] == mes_atual].sort_values(by='Acessos', ascending=True)['Empresa'].tolist()
+
     
     fig2 = px.bar(df_comp, 
                   x='Acessos', 
                   y='Empresa', 
                   color='Periodo', 
-                  barmode='group', # Isso coloca as barras lado a lado
+                  barmode='group',
                   orientation='h',
                   title=f"Comparativo de Acessos: {mes_anterior} vs {mes_atual}",
-                  text_auto='.2s') # Mostra o valor formatado nas barras
+                  text_auto='.2s') 
+    fig2.update_layout(yaxis={'categoryorder': 'array', 'categoryarray': ordem_empresas})
     
     crescimento_pct = (dfcrescimento.pct_change().iloc[-1] * 100).fillna(0)
 
