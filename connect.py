@@ -23,38 +23,32 @@ st.sidebar.header("Filtros")
 #Filtro: Empresa
 empresa = st.sidebar.multiselect(
     "Empresa",
-    options=df["Empresa"].unique(),
-    default=df["Empresa"].unique())
+    options=df["Empresa"].unique())
 
 #Filtro: porte de Prestadora
 porte = st.sidebar.multiselect(
     "Porte da Prestadora",
-    options=df["Porte da Prestadora"].unique(),
-    default=df["Porte da Prestadora"].unique())
+    options=df["Porte da Prestadora"].unique())
 
 #Filtro: Tecnologia
 tecnologia = st.sidebar.multiselect(
     "Tecnologia",
-    options=df["Tecnologia"].unique(),
-    default=df["Tecnologia"].unique())
+    options=df["Tecnologia"].unique())
 
 #Filtro: Tecnologia Geração
 tecnologia_geracao = st.sidebar.multiselect(
     "Tecnologia Geração",
-    options=df["Tecnologia Geração"].unique(),
-    default=df["Tecnologia Geração"].unique())
+    options=df["Tecnologia Geração"].unique())
 
 #Filtro Tipo de Pessoa
 tipo_pessoa = st.sidebar.multiselect(
     "Tipo de Pessoa",
-    options=df["Tipo de Pessoa"].unique(),
-    default=df["Tipo de Pessoa"].unique())
+    options=df["Tipo de Pessoa"].unique())
 
 #Filtro Grupo Econômico
 grupo_economico = st.sidebar.multiselect(
     "Grupo Econômico",
-    options=df["Grupo Econômico"].unique(),
-    default=df["Grupo Econômico"].unique())
+    options=df["Grupo Econômico"].unique())
 
 #Filtro UF
 uf = st.sidebar.multiselect(
