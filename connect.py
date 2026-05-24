@@ -73,7 +73,7 @@ def visao_geral_page():
         default=df["UF"].unique())
 
 paginas = [
-    st.Page(visao_geral_page, title="Visão Geral do Mercado", icon="📈")
+    st.Page(visao_geral_page, title="Visão Geral do Mercado", icon="📈"),
     st.Page(teste, title='Teste', icon="🔍")
 ]
 
