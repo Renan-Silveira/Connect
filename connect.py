@@ -21,6 +21,9 @@ st.set_page_config(
 )
 
 def crescimento(df):
+    df = aplicar_filtros(df)
+
+    st.dataframe(df)
     dfcrescimento = df.groupby(['periodo', 'Empresa'])['acessos'].sum().unstack(fill_value=0)
     
 
@@ -105,6 +108,17 @@ def aplicar_filtros(df):
         "UF",
         options=df["UF"].unique(),
         default=df["UF"].unique())
+    
+    df_filtrado = df[
+        (df["Empresa"].isin(empresa)) &
+        (df["Porte da Prestadora"].isin(porte)) &
+        (df["Tecnologia"].isin(tecnologia)) &
+        (df["Tecnologia Geração"].isin(tecnologia_geracao)) &
+        (df["Tipo de Pessoa"].isin(tipo_pessoa)) &
+        (df["Grupo Econômico"].isin(grupo_economico)) &
+        (df["UF"].isin(uf))
+    ]
+    return df_filtrado
 
 def teste():
     print("Teste de Navegação") # Função de teste para verificar a navegação entre páginas, imprime uma mensagem no console quando chamada
