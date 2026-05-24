@@ -122,15 +122,13 @@ def teste():
     print("Teste de Navegação") # Função de teste para verificar a navegação entre páginas, imprime uma mensagem no console quando chamada
     aplicar_filtros(df) # Chama a função aplicar_filtros para exibir os filtros na barra lateral, permitindo que o usuário interaja com os dados e refine a visualização de acordo com suas preferências
 
-def visao_geral_page(df):
+def visao_geral_page():
 
     st.title("📈 Visão Geral do Mercado")
     st.subheader("Análise Macroeconômica e Evolução Histórica de Acessos")
     st.markdown("---")
     st.sidebar.header("Filtros")
-    df = aplicar_filtros(df)
 
-    st.dataframe(df)
     fig1, fig2, fig3 = crescimento(df)
 
     st.title("Dashboard de Mercado - Acessos Móveis")
@@ -143,7 +141,7 @@ def visao_geral_page(df):
     with col2:
         st.plotly_chart(fig3, use_container_width=True)
 paginas = [
-    st.Page(visao_geral_page(df), title="Visão Geral do Mercado", icon="📈"),
+    st.Page(visao_geral_page, title="Visão Geral do Mercado", icon="📈"),
     st.Page(teste, title='Teste', icon="🔍")
 ]
 
