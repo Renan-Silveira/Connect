@@ -122,7 +122,7 @@ def teste():
     print("Teste de Navegação") # Função de teste para verificar a navegação entre páginas, imprime uma mensagem no console quando chamada
     aplicar_filtros(df) # Chama a função aplicar_filtros para exibir os filtros na barra lateral, permitindo que o usuário interaja com os dados e refine a visualização de acordo com suas preferências
 
-def visao_geral_page():
+def visao_geral_page(df):
 
     st.title("📈 Visão Geral do Mercado")
     st.subheader("Análise Macroeconômica e Evolução Histórica de Acessos")
