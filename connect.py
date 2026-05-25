@@ -28,13 +28,39 @@ st.markdown("""
 def carregar_dados():
     DIR_DATAPROCESSED = os.getenv("DIR_DATAPROCESSED", ".") 
     try:
-        df = pd.read_parquet(os.path.join(DIR_DATAPROCESSED, "preprocessado.parquet"))
-        # Garantir que a coluna de data seja datetime
+        # 1. Defina apenas as colunas que as páginas realmente utilizam
+        colunas_necessarias = [
+            'periodo', 'Empresa', 'acessos', 'UF', 
+            'Tecnologia Geração', 'Porte da Prestadora', 
+            'Tipo de Produto', 'Modalidade de Cobrança'
+        ]
+        
+        # 2. Leia apenas as colunas filtradas
+        df = pd.read_parquet(
+            os.path.join(DIR_DATAPROCESSED, "preprocessado.parquet"),
+            columns=colunas_necessarias
+        )
+        
+        # 3. Converta a data adequadamente
         if 'periodo' in df.columns:
             df['periodo'] = pd.to_datetime(df['periodo'])
+            
+        # 4. Transforme strings repetitivas em categorias (Economiza MUITA memória)
+        colunas_categoricas = [
+            'Empresa', 'UF', 'Tecnologia Geração', 
+            'Porte da Prestadora', 'Tipo de Produto', 'Modalidade de Cobrança'
+        ]
+        for col in colunas_categoricas:
+            if col in df.columns:
+                df[col] = df[col].astype('category')
+                
+        # 5. Garanta que o número de acessos seja o tipo numérico mais leve possível
+        if 'acessos' in df.columns:
+            df['acessos'] = pd.to_numeric(df['acessos'], downcast='float')
+            
         return df
     except Exception as e:
-        st.error(f"Erro ao carregar dados: {e}. Verifique o caminho e as colunas ('periodo' e 'acessos' são necessárias).")
+        st.error(f"Erro ao carregar dados: {e}")
         return pd.DataFrame()
 
 df = carregar_dados()
