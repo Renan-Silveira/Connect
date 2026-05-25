@@ -153,7 +153,7 @@ def visao_geral_page():
 
     
     fig1.update_yaxes(tickformat=',.0f') # Formatação eixo Y
-    st.plotly_chart(fig1, use_container_width=True)
+    st.plotly_chart(fig1, width='stretch')
 
     colA, colB = st.columns(2)
     # P2: Maior crescimento absoluto
@@ -162,7 +162,7 @@ def visao_geral_page():
         top_abs.columns = ['Empresa', 'Crescimento Absoluto']
         fig2 = px.bar(top_abs, x='Crescimento Absoluto', y='Empresa', orientation='h', title="Top 10: Crescimento Absoluto (MoM)", text_auto='.2s', template="plotly_dark")
         fig2.update_layout(yaxis={'categoryorder':'total ascending'})
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig2, width='stretch')
 
     # P3: Maior crescimento percentual
     with colB:
@@ -171,7 +171,7 @@ def visao_geral_page():
         top_pct.columns = ['Empresa', 'Crescimento %']
         fig3 = px.bar(top_pct, x='Crescimento %', y='Empresa', orientation='h', title="Top 10: Crescimento Percentual (Vol > 1k)", text_auto='.1f', template="plotly_dark")
         fig3.update_layout(yaxis={'categoryorder':'total ascending'})
-        st.plotly_chart(fig3, use_container_width=True)
+        st.plotly_chart(fig3, width='stretch')
 
 
 # --- PÁGINA 2: AGRESSIVIDADE E POSICIONAMENTO (Perguntas 4 e 6) ---
@@ -206,7 +206,7 @@ def posicionamento_agressividade_page():
     # Adicionando linhas de quadrante (médias)
     fig_scatter.add_hline(y=df_matriz['Crescimento %'].median(), line_dash="dash", annotation_text="Mediana de Crescimento")
     fig_scatter.add_vline(x=df_matriz['Volume'].median(), line_dash="dash")
-    st.plotly_chart(fig_scatter, use_container_width=True)
+    st.plotly_chart(fig_scatter, width='stretch')
 
     # P4: Como a Connect se posiciona (Market Share)
     st.subheader("Market Share de Tecnologias - Connect vs Mercado")
@@ -216,13 +216,13 @@ def posicionamento_agressividade_page():
         top5 = vol_atual.nlargest(5).index.tolist()
         df_atual['Agrupamento'] = df_atual['Empresa'].apply(lambda x: x if x in top5 or 'Connect' in x else 'Outros')
         fig_share = px.pie(df_atual, values='acessos', names='Agrupamento', title="Market Share Atual", hole=0.4, template="plotly_dark")
-        st.plotly_chart(fig_share, use_container_width=True)
+        st.plotly_chart(fig_share, width='stretch')
     with c2:
         # Portfólio Tecnológico da Connect vs Lider
         empresas_comp = st.multiselect("Comparar portfólio tecnológico:", df['Empresa'].unique(), default=[top5[0], "Connect Iot Solutions Ltda" if "Connect Iot Solutions Ltda" in df['Empresa'].unique() else top5[1]])
         df_comp = df_atual[df_atual['Empresa'].isin(empresas_comp)]
         fig_tech = px.histogram(df_comp, x='Empresa', y='acessos', color='Tecnologia Geração', barmode='group', title="Mix Tecnológico Atual", template="plotly_dark")
-        st.plotly_chart(fig_tech, use_container_width=True)
+        st.plotly_chart(fig_tech, width='stretch')
 
 
 # --- PÁGINA 3: OPORTUNIDADES E NICHOS (Perguntas 5, 7 e 8) ---
@@ -238,7 +238,7 @@ def radar_oportunidades_page():
     fig_uf = px.scatter(df_uf, x='acessos', y='Empresa', color='UF', size='acessos', text='UF',
                         title="Matriz de Maturação por UF (Volume x Competição)", template="plotly_dark")
     fig_uf.update_traces(textposition='top center')
-    st.plotly_chart(fig_uf, use_container_width=True)
+    st.plotly_chart(fig_uf, width='stretch')
 
     col1, col2 = st.columns(2)
     with col1:
@@ -249,7 +249,7 @@ def radar_oportunidades_page():
         top_empresas = df_atual.groupby('Empresa')['acessos'].sum().nlargest(15).index
         df_radar = df_radar[df_radar['Empresa'].isin(top_empresas)]
         fig_heat = px.density_heatmap(df_radar, x='Tecnologia Geração', y='Empresa', z='acessos', title="Mapa de Calor: Foco Tecnológico", template="plotly_dark", color_continuous_scale="Viridis")
-        st.plotly_chart(fig_heat, use_container_width=True)
+        st.plotly_chart(fig_heat, width='stretch')
 
     with col2:
         # P8: Avanço de Players Menores / MVNOs (Porte x Modalidade/Produto)
@@ -257,7 +257,7 @@ def radar_oportunidades_page():
         # Analisando o avanço pelo tipo de cobrança e produto
         df_mvno = df_atual[df_atual['Porte da Prestadora'] == 'Pequeno Porte']
         fig_mvno = px.sunburst(df_mvno, path=['Tipo de Produto', 'Modalidade de Cobrança', 'Empresa'], values='acessos', title="Atuação de Pequeno Porte (Nichos de Produtos)", template="plotly_dark")
-        st.plotly_chart(fig_mvno, use_container_width=True)
+        st.plotly_chart(fig_mvno, width='stretch')
 
 
 # --- PÁGINA 4: RECOMENDAÇÕES EXECUTIVAS (Perguntas 9 e 10) ---
