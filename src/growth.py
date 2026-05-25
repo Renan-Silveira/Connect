@@ -5,16 +5,16 @@ def growth():
     import pyarrow.dataset as ds # Biblioteca para manipular conjuntos de dados usando PyArrow
 
     load_dotenv() # Carrega as variáveis de ambiente do arquivo .env
-    DIR_DATAPROCESSED = os.getenv("DIR_DATAPROCESSED") # Obtém o diretório onde o arquivo pré-processado será salvo a partir das variáveis de ambiente
-    DIR_GOLD = os.getenv("DIR_GOLD") # Obtém o diretório onde o arquivo pré-processado será salvo a partir das variáveis de ambiente
+    DIR_DATAPROCESSED = os.getenv("DIR_DATAPROCESSED") 
+    DIR_GOLD = os.getenv("DIR_GOLD") 
 
     try:
         datacorte = datetime.today() - timedelta(days=365) # Define a data de corte como um dia antes da data atual
         datacorte = datacorte.strftime('%Y-%m-%d')
         df = ds.dataset(os.path.join(DIR_DATAPROCESSED, "preprocessado.parquet"), format="parquet")
         df_filtered = df.to_table(filter=ds.field('periodo') >= datacorte) # Filtra o DataFrame para incluir apenas os registros com período maior ou igual à data de corte
-        df_filtered = df_filtered.to_pandas() # Converte o DataFrame filtrado para um DataFrame do Pandas para facilitar a manipulação e visualização
-        df_filtered.to_parquet(os.path.join(DIR_GOLD, "gold_growth.parquet"), index=False) # Salva o DataFrame filtrado em um arquivo Parquet no diretório de destino, sem incluir o índice do DataFrame no arquivo final
+        df_filtered = df_filtered.to_pandas() # Converte o DataFrame filtrado para um DataFrame do Pandas
+        df_filtered.to_parquet(os.path.join(DIR_GOLD, "gold_growth.parquet"), index=False) # Salva o DataFrame filtrado em um arquivo Parquet
         return True # Retorna True para indicar que a função foi executada com sucesso
 
     except Exception as e:
