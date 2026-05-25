@@ -6,7 +6,7 @@ def main():
     from growth import growth
     import logging
 
-    logging.basicConfig(
+    logging.basicConfig( # Configuração básica do logging para registrar informações no console
         level=logging.INFO,
         format="%(asctime)s | %(levelname)s | %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S"
@@ -14,7 +14,7 @@ def main():
     logger = logging.getLogger(__name__)
     logger.info("Pipeline iniciada")
 
-    steps = [
+    steps = [ # Lista de etapas a serem executadas na pipeline
         extract,
         rename_csv,
         rename_parquet,
