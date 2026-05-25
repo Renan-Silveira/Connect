@@ -1,14 +1,14 @@
 def rename_parquet():
-    import pyarrow.csv as pv # Biblioteca para ler arquivos CSV e convertê-los em tabelas Parquet usando PyArrow
-    import pyarrow.parquet as pq # Biblioteca para escrever tabelas Parquet usando PyArrow
-    from pathlib import Path # Biblioteca para manipulação de caminhos de arquivos, facilita a construção de caminhos de forma portátil
+    import pyarrow.csv as pv # Biblioteca para ler arquivos CSV
+    import pyarrow.parquet as pq # Biblioteca para escrever tabelas Parquet
+    from pathlib import Path # Biblioteca para manipulação de caminhos de arquivos
     import os # Biblioteca para interagir com o sistema operacional
     from dotenv import load_dotenv # Biblioteca para carregar variáveis de ambiente a partir de um arquivo .env
 
     load_dotenv() # Carrega as variáveis de ambiente do arquivo .env
 
-    DIR_DATARAW = os.getenv("DIR_DATARAW") # Obtém o diretório onde os dados extraídos serão salvos a partir das variáveis de ambiente
-    DIR_DATAPARQUET = os.getenv("DIR_DATAPARQUET") # Obtém o diretório onde os arquivos Parquet serão salvos a partir das variáveis de ambiente
+    DIR_DATARAW = os.getenv("DIR_DATARAW") # Obtém o diretório onde os dados extraídos serão salvos
+    DIR_DATAPARQUET = os.getenv("DIR_DATAPARQUET") # Obtém o diretório onde os arquivos Parquet serão salvos
     try:
 
         Path(DIR_DATAPARQUET).mkdir(parents=True, exist_ok=True) # Garante que o diretório para os arquivos Parquet exista, criando-o se necessário
@@ -28,9 +28,9 @@ def rename_parquet():
                 novo_nome = renomear_arquivo_parquet(arquivo) # Define o novo nome e caminho
                 caminho_destino = os.path.join(DIR_DATAPARQUET, novo_nome) # Constrói o caminho completo para o arquivo Parquet usando os.path.join para garantir portabilidade entre sistemas operacionais
                 
-                pq.write_table(df, caminho_destino, compression='snappy') # Salva o DataFrame em formato Parquet com compressão Snappy
+                pq.write_table(df, caminho_destino, compression='snappy') # Salva o DataFrame
                 
-                os.remove(caminho_completo) # Remove o arquivo CSV original para economizar espaço em disco
+                os.remove(caminho_completo) # Remove o arquivo CSV
                 
                 print(f"Convertido: {arquivo} -> {novo_nome}") # Imprime uma mensagem indicando que o arquivo foi convertido e renomeado
         return True # Retorna True para indicar que a renomeação foi concluída com sucesso
