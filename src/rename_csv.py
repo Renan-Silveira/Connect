@@ -4,7 +4,7 @@ def rename_csv():
 
     load_dotenv() # Carrega as variáveis de ambiente do arquivo .env
 
-    DIR_DATARAW = os.getenv("DIR_DATARAW") # Obtém o diretório onde os dados extraídos serão salvos a partir das variáveis de ambiente
+    DIR_DATARAW = os.getenv("DIR_DATARAW") 
     try:
         for nome_arquivo in os.listdir(DIR_DATARAW):
             if nome_arquivo.endswith(".csv"):
@@ -13,8 +13,7 @@ def rename_csv():
                 
                 # Verifica se o arquivo tem pelo menos 3 underscores
                 if len(partes) > 3:
-                    # Junta as partes a partir da 3ª posição (índice 3)
-                    # Se quiser manter o 3º, mude para partes[2:]
+                
                     novo_nome = "_".join(partes[3:])
                     
                     # Renomeia o arquivo
