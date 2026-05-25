@@ -3,6 +3,7 @@ def main():
     from rename_parquet import rename_parquet
     from rename_csv import rename_csv
     from compile import compile_parquet
+    from growth import growth
     import logging
 
     logging.basicConfig(
@@ -17,7 +18,8 @@ def main():
         extract,
         rename_csv,
         rename_parquet,
-        compile_parquet
+        compile_parquet,
+        growth
     ]
 
     for step in steps:
