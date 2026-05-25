@@ -2,15 +2,15 @@ def compile_parquet():
     # Este arquivo foi pensado para compilar os arquivos parquet gerados no processo para um arquivo préprocessado.
     import os # Biblioteca para interagir com o sistema operacional
     from dotenv import load_dotenv # Biblioteca para carregar variáveis de ambiente a partir de um arquivo .env
-    import glob # Biblioteca para encontrar arquivos e diretórios usando padrões de correspondência de nomes
-    import polars as pl # Biblioteca para manipulação de dados em Rust, usada para processar os arquivos Parquet de forma eficiente
+    import glob # Biblioteca para encontrar arquivos e diretórios
+    import polars as pl # Biblioteca para manipulação de dados usada para processar os arquivos Parquet
     load_dotenv() # Carrega as variáveis de ambiente do arquivo .env
 
-    DIR_DATAPARQUET = os.getenv("DIR_DATAPARQUET") # Obtém o diretório onde os arquivos Parquet estão localizados a partir das variáveis de ambiente
-    DIR_DATAPROCESSED = os.getenv("DIR_DATAPROCESSED") # Obtém o diretório onde o arquivo pré-processado será salvo a partir das variáveis de ambiente
+    DIR_DATAPARQUET = os.getenv("DIR_DATAPARQUET") # Obtém o diretório onde os arquivos Parquet estão localizados
+    DIR_DATAPROCESSED = os.getenv("DIR_DATAPROCESSED") # Obtém o diretório onde o arquivo pré-processado vai ser salvo
     padrao = os.path.join(DIR_DATAPARQUET, "[0-9][0-9][0-9][0-9]*_Colunas.parquet") #Importa todos os arquivos com numeros no nome
     try:
-        arquivos_parquet = sorted(glob.glob(padrao)) # Encontra todos os arquivos Parquet que correspondem ao padrão especificado e os ordena por nome (assumindo que o nome do arquivo começa com o ano, isso garante que os arquivos sejam processados em ordem cronológica)
+        arquivos_parquet = sorted(glob.glob(padrao)) # Encontra todos os arquivos Parquet
         arquivos_filtrados = [] 
         
         for arquivo in arquivos_parquet: # Itera sobre os arquivos encontrados para filtrar apenas aqueles que começam com um ano (4 dígitos) e são maiores ou iguais a 2020
@@ -20,29 +20,29 @@ def compile_parquet():
                     arquivos_filtrados.append(arquivo) # Adiciona o arquivo à lista de arquivos filtrados se o ano for maior ou igual a 2020
             except ValueError: 
                 print(f"Aviso: O arquivo '{nome_arquivo}' ignorado.") 
-                continue # Continua para o próximo arquivo na lista, ignorando o arquivo atual que não segue o padrão esperado.
+                continue # Continua para o próximo arquivo na lista
 
         if not arquivos_filtrados: 
-            print("Nenhum arquivo encontrado.") # Imprime uma mensagem indicando que nenhum arquivo foi encontrado que atenda ao critério de nome (ano >= 2020).
+            print("Nenhum arquivo encontrado.") # Imprime uma mensagem indicando que nenhum arquivo foi encontrado
             return False 
 
         colunas_id = [
             'CNPJ', 'Código Nacional', 'Município', 'UF', 'Modalidade de Cobrança', 
             'Tecnologia', 'Tecnologia Geração', 'Empresa', 'Porte da Prestadora', 
             'Tipo de Pessoa', 'Tipo de Produto', 'Código IBGE Município', 'Grupo Econômico'
-        ] # Lista de colunas que são consideradas identificadoras (ID) e não fazem parte dos períodos, usada para separar as colunas de período das colunas de identificação durante o processo de unpivot (melt) no Polars.
+        ] # Lista de colunas
         lazy_frames = [] 
 
         for arquivo in arquivos_filtrados: 
             lf = pl.scan_parquet(arquivo)
-            lf = lf.filter(pl.col('Tipo de Produto') == 'M2M') # Filtra os dados para incluir apenas os registros onde a coluna 'Tipo de Produto' é igual a 'M2M', garantindo que apenas os dados relevantes para o crescimento M2M sejam processados.
+            lf = lf.filter(pl.col('Tipo de Produto') == 'M2M') # Filtra os dados para incluir apenas os registros onde a coluna 'Tipo de Produto' é igual a 'M2M'
             
 
             colunas_arquivo = lf.collect_schema().names()
             colunas_periodo = [col for col in colunas_arquivo if col not in colunas_id]
             colunas_id_presentes = [col for col in colunas_id if col in colunas_arquivo]
 
-            # unpivot é a versão mais moderna e rápida do melt no Polars
+            # unpivot
             lf = lf.unpivot(
                 index=colunas_id_presentes,
                 on=colunas_periodo,
@@ -62,7 +62,7 @@ def compile_parquet():
             lf = lf.with_columns([
                 pl.col('data_periodo').dt.year().alias('ano'),
                 pl.col('data_periodo').dt.month().alias('mes')
-            ]).drop('data_periodo') # Remove a coluna de data temporária se quiser manter o formato original na coluna 'periodo'
+            ]).drop('data_periodo')
 
             lazy_frames.append(lf)
 
@@ -82,4 +82,4 @@ def compile_parquet():
     
 
 if __name__ == "__main__":
-    compile_parquet() # Chama a função de compilação dos arquivos Parquet quando o script é executado diretamente
+    compile_parquet() # Chama a função de compilação dos arquivos
