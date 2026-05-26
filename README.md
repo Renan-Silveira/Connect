@@ -525,6 +525,11 @@ python growth.py
 
 ---
 
+# Executar o script do streamlit
+```bash
+streamlit run connect.py
+```
+
 # Estrutura Analítica Final
 
 O dataset final possui informações como:
