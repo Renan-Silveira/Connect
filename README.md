@@ -258,13 +258,13 @@ Os arquivos baixados da Anatel possuem prefixos extensos e inconsistentes. O scr
 Antes:
 
 ```text
-2024_05_01_Acessos_Telefonia_Movel.csv
+Acessos_Telefonia_Movel_2020-1S_colunas.csv
 ```
 
 Depois:
 
 ```text
-Acessos_Telefonia_Movel.csv
+2020-1S_colunas.csv
 ```
 
 ### Saída
