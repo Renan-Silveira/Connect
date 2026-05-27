@@ -3,7 +3,8 @@
 Solução de Business Intelligence e pipeline de dados para análise de mercado, concorrência e expansão de acessos móveis M2M no Brasil, utilizando dados públicos da Anatel.
 
 ---
-
+URL da Apresentação:
+[https://connect-dtgzepmao8zmqrqe8xxasa.streamlit.app/]
 # Análise de Mercado IoT e Conectividade Móvel (M2M)
 
 ## Visão Geral
